@@ -6,17 +6,18 @@ class LengthClass(str, Enum):
     MEDIUM = "medium"
     LONG = "long"
 
-class LameLevel(str, Enum):
-    DECENT = "decent"       # 1
-    MODERATE = "moderate"   # 2
-    HIGH = "high"           # 3
+class LamenessLevel(str, Enum):
+    WITTY = "witty"
+    AVERAGE = "average"
+    CRINGE = "cringe"
 
 class JokeRequest(BaseModel):
     length_class: LengthClass
-    lame_level: LameLevel
+    lameness_level: LamenessLevel
 
 class JokeResponse(BaseModel):
     text: str
     length_class: LengthClass
-    lame_level: LameLevel
+    lameness_level: LamenessLevel
+
 

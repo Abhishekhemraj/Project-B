@@ -15,7 +15,7 @@ class JokeGeneratorApp:
         self.fallback_generator = FallbackGenerator(self.groq_client)
         self.formatter = ResponseFormatter()
 
-    def get_joke(self, length: str, lame_level_str: str = "moderate") -> str:
+    def get_joke(self, length: str, lameness_level: str = "average") -> str:
         """
         Main execution flow:
         1. Validate Input
@@ -25,7 +25,7 @@ class JokeGeneratorApp:
         """
         try:
             # 1. Validate Input
-            request = JokeRequest(length_class=length, lame_level=lame_level_str)
+            request = JokeRequest(length_class=length, lameness_level=lameness_level)
             logger.info(f"Processing request: {request}")
 
             # 2. Filter Local Dataset
@@ -42,23 +42,24 @@ class JokeGeneratorApp:
                     top_matches, 
                     {
                         "length_class": length, 
-                        "lame_level": lame_level_str
+                        "lameness_level": lameness_level
                     }
                 )
-                selected_joke["lame_level"] = lame_level_str
+                selected_joke["lameness_level"] = lameness_level
                 return self.formatter.format_joke_response(selected_joke, source="local_ranked")
             
             else:
                 logger.info("No local matches found. Triggering Fallback Generator...")
                 # 3b. Generate with Groq
-                generated_text = self.fallback_generator.generate_joke(length, lame_level_str)
+                generated_text = self.fallback_generator.generate_joke(length, lameness_level)
                 
                 joke_data = {
                     "text": generated_text,
                     "length_class": length,
-                    "lame_level": lame_level_str
+                    "lameness_level": lameness_level
                 }
                 return self.formatter.format_joke_response(joke_data, source="generated")
+
 
 
         except Exception as e:

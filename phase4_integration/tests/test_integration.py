@@ -16,7 +16,7 @@ def test_full_flow_local_match(app):
     with patch('phase4_integration.main.filter_jokes', return_value=[mock_joke]):
         # Mock ranking to select the first one
         with patch.object(app.ranking_service, 'select_best_joke', return_value=mock_joke):
-            response_json = app.get_joke("short", "decent")
+            response_json = app.get_joke("short", "witty")
             response = json.loads(response_json)
             
             assert response["status"] == "success"
@@ -28,7 +28,7 @@ def test_full_flow_fallback(app):
     with patch('phase4_integration.main.filter_jokes', return_value=[]):
         # Mock generation
         with patch.object(app.fallback_generator, 'generate_joke', return_value="Generated Content"):
-            response_json = app.get_joke("medium", "high")
+            response_json = app.get_joke("medium", "cringe")
             response = json.loads(response_json)
             
             assert response["status"] == "success"
@@ -36,7 +36,7 @@ def test_full_flow_fallback(app):
             assert response["meta"]["source"] == "generated"
 
 def test_full_flow_invalid_input(app):
-    response_json = app.get_joke("extra-large", "moderate")
+    response_json = app.get_joke("extra-large", "average")
     response = json.loads(response_json)
     
     assert response["status"] == "error"

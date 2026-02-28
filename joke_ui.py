@@ -167,9 +167,10 @@ def main():
         with col1:
             length = st.selectbox("📏 JOKE LENGTH", options=["short", "medium", "long"], index=1)
         with col2:
-            lame_options = {"Highly Lame": "high", "Moderately Lame": "moderate", "Decent Joke": "decent"}
+            lame_options = {"Highly Lame": "cringe", "Moderately Lame": "average", "Decent Joke": "witty"}
             lame_user = st.selectbox("🥴 LAME-O-METER", options=list(lame_options.keys()), index=1)
             lame_internal = lame_options[lame_user]
+
 
 
         st.write("") 

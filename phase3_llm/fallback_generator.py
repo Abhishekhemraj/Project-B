@@ -4,16 +4,16 @@ class FallbackGenerator:
     def __init__(self, client: GroqClient):
         self.client = client
 
-    def generate_joke(self, length_class: str, lame_level: str) -> str:
+    def generate_joke(self, length_class: str, lameness_level: str) -> str:
         """
         Generates a new joke when no local matches are found.
         """
         style_descriptions = {
-            "high": "highly lame: extremely cheesy, eye-rolling dad joke",
-            "moderate": "moderately lame: mildly clever but corny pun",
-            "decent": "decent joke: genuinely funny with a clever punchline"
+            "cringe": "highly lame: extremely cheesy, eye-rolling dad joke",
+            "average": "moderately lame: mildly clever but corny pun",
+            "witty": "decent joke: genuinely funny with a clever punchline"
         }
-        style = style_descriptions.get(lame_level, "mildly funny")
+        style = style_descriptions.get(lameness_level, "mildly funny")
 
         prompt = (
             f"Generate a brand new joke with the following attributes:\n"
@@ -24,6 +24,7 @@ class FallbackGenerator:
             "- No extra explanation or commentary.\n"
             "- Ensure it fits the category perfectly."
         )
+
 
 
         messages = [

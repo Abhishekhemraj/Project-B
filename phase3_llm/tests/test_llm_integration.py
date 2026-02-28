@@ -21,7 +21,7 @@ def test_ranking_path(mock_groq_client):
         {"text": "Joke 0", "category": "short"},
         {"text": "Joke 1", "category": "medium"}
     ]
-    query_info = {"length_class": "medium", "lame_level": "decent"}
+    query_info = {"length_class": "medium", "lameness_level": "witty"}
     
     selected = ranking_service.select_best_joke(jokes, query_info)
     assert selected["text"] == "Joke 1"
@@ -33,12 +33,11 @@ def test_fallback_path(mock_groq_client):
     mock_groq_client.client.chat.completions.create.return_value = mock_response
 
     generator = FallbackGenerator(mock_groq_client)
-    joke = generator.generate_joke("short", "high")
+    joke = generator.generate_joke("short", "cringe")
     assert joke == "This is a generated joke."
 
 def test_groq_client_retry_on_ratelimit(mock_groq_client):
     # Mock RateLimitError for first call, success on second
-    # Use a mock exception that has response and body attributes
     error = RateLimitError("Limit reached", response=MagicMock(), body={})
     mock_groq_client.client.chat.completions.create.side_effect = [
         error,
