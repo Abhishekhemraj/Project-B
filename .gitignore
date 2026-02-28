@@ -1,1 +1,8 @@
+__pycache__/
+*.pyc
 .env
+.pytest_cache/
+*.mp3
+*.gif
+data/
+
